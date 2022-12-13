@@ -6,5 +6,5 @@ WARNING: Only supports the 32BppArgb pixel format. You will likely run into erro
 
 Expect problems. If you run into swapped colors or any bug/error please create an issue.
 
-If you have questions or concerns message me on Discord @ https://discord.gg/yuQNH7Ng2b
-Username konnichiwa#5962
+If you have questions or concerns message me on Discord @ cloud pfp#6907
+
