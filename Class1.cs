@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace HyperBitmap
 {
     /// <summary>
-    /// Extensions required for this to work.
+    /// Extensions required for HyperBitmap to work.
     /// </summary>
     public static class Extensions
     {
@@ -40,7 +40,7 @@ namespace HyperBitmap
         public ImageFormat RawFormat;
         private int RawStride = 0;
         /// <summary>
-        /// Sets the properties of this to those of a Bitmap.
+        /// Sets the properties of this FastBmp to those of a Bitmap. You usually wont need this.
         /// </summary>
         /// <param name="myImage"></param>
         private void SetExtras(Bitmap myImage)
@@ -58,7 +58,22 @@ namespace HyperBitmap
             PropertyItems = myImage.PropertyItems;
             PropertyIdList = myImage.PropertyIdList;
             RawFormat = myImage.RawFormat;
-
+        }
+        public static implicit operator Bitmap(FastBmp bmp)
+        {
+            return bmp.AsBitmap();
+        }
+        public static implicit operator Image(FastBmp bmp)
+        {
+            return bmp.AsBitmap();
+        }
+        public static explicit operator FastBmp(Bitmap bmp)
+        {
+            return new FastBmp(bmp);
+        }
+        public static explicit operator FastBmp(Image bmp)
+        {
+            return new FastBmp(bmp);
         }
         /// <summary>
         /// Creates a FastBmp from a file.
@@ -75,7 +90,7 @@ namespace HyperBitmap
             System.Runtime.InteropServices.Marshal.Copy(bmpData1.Scan0, data, 0
                                        , data.Length);
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -95,7 +110,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -116,7 +131,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -137,7 +152,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -159,7 +174,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -181,7 +196,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -203,7 +218,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -225,7 +240,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -242,7 +257,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -260,7 +275,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -277,7 +292,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -294,7 +309,7 @@ namespace HyperBitmap
                                        , data.Length);
 
             myImage.UnlockBits(bmpData1);
-            pixels = data;
+            pixels = data.Clone() as byte[];
             IntPtr = bmpData1.Scan0;
             RawStride = bmpData1.Stride;
             SetExtras(myImage);
@@ -344,7 +359,7 @@ namespace HyperBitmap
             return new FastBmp(stream);
         }
         /// <summary>
-        /// Converts the FastBmp to a Bitmap.
+        /// Converts the FastBmp to a Bitmap. This is no longer needed, but may be used.
         /// </summary>
         /// <returns>The Bitmap.</returns>
         public Bitmap AsBitmap()
@@ -475,6 +490,52 @@ namespace HyperBitmap
             }
 
         }
+        ///<summary>
+        ///Draws a line on the image.
+        ///</summary>
+        ///<param name="x1">
+        ///X of the first point.
+        ///</param>
+        ///<param name="y1">
+        ///Y of the first point.
+        ///</param>
+        ///<param name="x2">
+        ///X of the second point.
+        /// </param>
+        /// <param name="y2">
+        ///Y of the second point.
+        /// </param>
+        public void DrawLine(int x1, int y1, int x2, int y2, Color color)
+        {
+            int deltaX = Math.Abs(x2 - x1);
+            int deltaY = Math.Abs(y2 - y1);
+            int stepX = x1 < x2 ? 1 : -1;
+            int stepY = y1 < y2 ? 1 : -1;
+            int error = deltaX - deltaY;
+            int currentX = x1;
+            int currentY = y1;
+
+            while (currentX != x2 || currentY != y2)
+            {
+                this.SetPixel(currentX, currentY, color);
+
+                int error2 = 2 * error;
+
+                if (error2 > -deltaY)
+                {
+                    error -= deltaY;
+                    currentX += stepX;
+                }
+
+                if (error2 < deltaX)
+                {
+                    error += deltaX;
+                    currentY += stepY;
+                }
+            }
+
+            this.SetPixel(x2, y2, color); // Set the last pixel
+        }
         /// <summary>
         /// Replaces color c with color r in the image. Acts mostly like the paint bucket tool in popular paint programs.
         /// </summary>
@@ -526,7 +587,7 @@ namespace HyperBitmap
         /// </summary>
         /// <param name="c">The color to locate.</param>
         /// <param name="tol">Total color variation tolerance. Use 0 to locate only the exact color provided.</param>
-        public Point[] LocateColors(Color c, int tol)
+        public Point[] LocateColors(Color c, int tol=0)
         {
             List<Point> otp = new List<Point>();
             for (int y = 0; y < Height; y++)
@@ -544,8 +605,6 @@ namespace HyperBitmap
                 }
             }
             return otp.ToArray();
-
-
         }
     }
 }
